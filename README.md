@@ -1,2 +1,3 @@
 # HyperDeck
-BlackMagic Design HyperDeck controller for Arduino via TCP
+
+[BlackMagic Design HyperDeck](https://www.blackmagicdesign.com/jp/products/hyperdeckstudiomini) controller for Arduino via TCP
