@@ -25,7 +25,14 @@ void setup() {
     // Ethernet.setRetransmissionCount(4); // default: 8[times]
     // Ethernet.setRetransmissionTimeout(50); // default: 200[ms]
 
-    deck.connect(host);
+    Serial.print("connecting to ");
+    Serial.print(host);
+    Serial.print("... ");
+    if (deck.connect(host)) {
+        Serial.println("SUCCESS");
+    } else {
+        Serial.println("FAILED");
+    }
 }
 
 void loop() {
