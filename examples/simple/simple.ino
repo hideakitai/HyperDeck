@@ -55,6 +55,14 @@ void loop() {
             else if (m == HyperDeck::StopMode::NEXT_FRAME)
                 m = HyperDeck::StopMode::BLACK_SCREEN;
             deck.play_option(m);
+        } else if (c == 'l') {
+            static bool b {true};
+            deck.play_loop(b);
+            b = !b;
+        } else if (c == 'c') {
+            static bool b {true};
+            deck.play_single_clip(b);
+            b = !b;
         }
     }
 }
