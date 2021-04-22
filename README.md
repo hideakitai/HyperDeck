@@ -3,6 +3,25 @@
 [BlackMagic Design HyperDeck](https://www.blackmagicdesign.com/jp/products/hyperdeckstudiomini) controller for Arduino via TCP
 
 
+## Supported Platforms
+
+#### Ethernet
+
+- ESP32
+- ESP8266
+- Almost all platforms without WiFi
+
+#### WiFi
+
+- ESP32
+- ESP8266
+- Arduino Uno WiFi Rev2
+- Arduino MKR VIDOR 4000
+- Arduino MKR WiFi 1010
+- Arduino MKR WiFi 1000
+- Arduino Nano 33 IoT
+
+
 ## Usage
 
 ``` C++
@@ -41,6 +60,14 @@ void loop() {
         }
     }
 }
+```
+
+### WiFi Support
+
+To control HyperDeck via WiFi, please replace `HyperDeck::Controller` to `HyperDeck::ControllerWiFi` and initialize WiFi instead of Ethernet. Please see `simple_wifi` example for details.
+
+```C++
+HyperDeck::ControllerWiFi deck;
 ```
 
 
