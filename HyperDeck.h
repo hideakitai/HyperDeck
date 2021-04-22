@@ -2,8 +2,39 @@
 #ifndef ARDUINO_HYPERDECK_H
 #define ARDUINO_HYPERDECK_H
 
+#if defined(ESP_PLATFORM) || defined(ESP8266) || defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_NANO_33_IOT)
+#define ARDUINO_HYPERDECK_ENABLE_WIFI
+#endif
+
+#if defined(ESP_PLATFORM) || defined(ESP8266) || !defined(ARTNET_ENABLE_WIFI)
+#define ARDUINO_HYPERDECK_ENABLE_ETHER
+#endif
+
+#if !defined(ARDUINO_HYPERDECK_ENABLE_WIFI) && !defined(ARDUINO_HYPERDECK_ENABLE_ETHER)
+#error THIS PLATFORM HAS NO WIFI OR ETHERNET OR NOT SUPPORTED ARCHITECTURE. PLEASE LET ME KNOW!
+#endif
+
 #include <Arduino.h>
+#ifdef ARDUINO_HYPERDECK_ENABLE_ETHER
 #include <Ethernet.h>
+#endif  // ARDUINO_HYPERDECK_ENABLE_ETHER
+#ifdef ARDUINO_HYPERDECK_ENABLE_WIFI
+#ifdef ESP_PLATFORM
+#include <WiFi.h>
+#include <WiFiUdp.h>
+#elif defined(ESP8266)
+#include <ESP8266WiFi.h>
+#include <WiFiUdp.h>
+#elif defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(ARDUINO_SAMD_NANO_33_IOT)
+#include <SPI.h>
+#include <WiFiNINA.h>
+#include <WiFiUdp.h>
+#elif defined(ARDUINO_SAMD_MKR1000)
+#include <SPI.h>
+#include <WiFi101.h>
+#include <WiFiUdp.h>
+#endif
+#endif  // ARDUINO_HYPERDECK_ENABLE_WIFI
 
 namespace arx {
 namespace hyperdeck {
@@ -39,8 +70,9 @@ namespace hyperdeck {
         TIMECODERUN
     };
 
-    class Controller {
-        EthernetClient tcp;
+    template <typename TcpClientType>
+    class Controller_ {
+        TcpClientType tcp;
         static constexpr uint16_t HYPERDECK_PORT {9993};
 
     public:
@@ -483,6 +515,13 @@ namespace hyperdeck {
             tcp.println("watchdog: period: " + String(sec));
         }
     };
+
+#ifdef ARDUINO_HYPERDECK_ENABLE_ETHER
+    using Controller = Controller_<EthernetClient>;
+#endif  // ARDUINO_HYPERDECK_ENABLE_ETHER
+#ifdef ARDUINO_HYPERDECK_ENABLE_WIFI
+    using ControllerWiFi = Controller_<WiFiClient>;
+#endif  // ARDUINO_HYPERDECK_ENABLE_WIFI
 
 }  // namespace hyperdeck
 }  // namespace arx
