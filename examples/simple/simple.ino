@@ -25,7 +25,7 @@ void setup() {
     // Ethernet.setRetransmissionCount(4); // default: 8[times]
     // Ethernet.setRetransmissionTimeout(50); // default: 200[ms]
 
-    Serial.print("connecting to ");
+    Serial.print("connecting to hyperdeck at ");
     Serial.print(host);
     Serial.print("... ");
     if (deck.connect(host)) {
