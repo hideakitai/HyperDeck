@@ -8,24 +8,36 @@
 namespace arx {
 namespace hyperdeck {
 
-    enum class StopMode { LAST_FRAME,
+    enum class StopMode {
+        LAST_FRAME,
         NEXT_FRAME,
-        BLACK_SCREEN };
-    enum class VideoInput { SDI,
+        BLACK_SCREEN
+    };
+    enum class VideoInput {
+        SDI,
         HDMI,
-        COMPONENT };
-    enum class AudioInput { EMBEDDED,
+        COMPONENT
+    };
+    enum class AudioInput {
+        EMBEDDED,
         XLR,
-        RCA };
-    enum class AudioCodec { PCM,
-        AAC };
-    enum class TimecodeInput { EXT,
+        RCA
+    };
+    enum class AudioCodec {
+        PCM,
+        AAC
+    };
+    enum class TimecodeInput {
+        EXT,
         EMBEDDED,
         PRESET,
-        CLIP };
-    enum class RecordTrigger { NONE,
+        CLIP
+    };
+    enum class RecordTrigger {
+        NONE,
         RECORDBIT,
-        TIMECODERUN };
+        TIMECODERUN
+    };
 
     class Controller {
         EthernetClient tcp;
